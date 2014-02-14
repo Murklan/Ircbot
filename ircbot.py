@@ -280,7 +280,7 @@ class Bot:
                 if rmd.add_message(userNick, user, message):
                     self.sendMessage("Set reminder '" + message + "'" + " for user " + userNick, channel)
                 else:
-                    self.sendMessage("Couldn't set the reminder '" + message "' for " + userNick, channel)
+                    self.sendMessage("Couldn't set the reminder '" + message + "' for " + userNick, channel)
 
     def join_channel(self,channel):
         if (channel[0] == "#"):
