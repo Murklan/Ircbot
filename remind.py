@@ -1,5 +1,5 @@
 import pickle
-messages = {"^MERKLERN^":"Why would I need to remind my self?"}
+messages = {"^MERKLERN^":[]}
 pickle.dump( messages, open ("messages.p","wb"))
 
 def pending(nick):
