@@ -106,8 +106,11 @@ class Bot:
             #Check if someone that joins has a reminder set
             if str(recv).find("JOIN") != -1 and not str(recv).find("PRIVMSG") != -1:
                 userNick = str(recv).split('!')[0].split(':')[1]
+                print userNick + "joined"
                 if rmd.pending(userNick):
-                    rmd.get_messages(userNick)
+                    print "found message"
+                    message = ' '.join(rmd.get_messages(userNick))
+                    self.sendMessage(message, channel)
 
             if str(recv).find("PRIVMSG") != -1:
                 userNick = str(recv).split('!')[0].split(':')[1]
