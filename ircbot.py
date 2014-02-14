@@ -6,12 +6,13 @@ import cPickle as pickle
 from random import randint
 from time import localtime, strftime, mktime
 
-import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck
+import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck, remind
 
 np = nowPlaying
 bm = bookmark
 gw = googlewiki
 url = urlDetection
+rmd = remind
 reddit = redditcheck.RedditCheck()
 
 authname = botvariables.authname
@@ -101,6 +102,13 @@ class Bot:
             #print recv
             if str(recv).find("PING") != -1:
                 self.irc_socket.send("PONG ".encode() + recv.split()[1] + "\r\n".encode())
+
+            #Check if someone that joins has a reminder set
+            if str(recv).find("JOIN") != -1 and not str(recv).find("PRIVMSG") != -1:
+                userNick = str(recv).split('!')[0].split(':')[1]
+                if rmd.pending(userNick):
+                    rmd.get_messages(userNick)
+
             if str(recv).find("PRIVMSG") != -1:
                 userNick = str(recv).split('!')[0].split(':')[1]
                 userHost = str(recv).split("@")[1].split(' ')[0]
@@ -264,6 +272,15 @@ class Bot:
                         self.sendMessage(bm.listBookmarks(), channel)
                     else:
                         self.sendMessage(bm.getBookmark(command[1]), channel)
+
+            if (command[0] == 'remind'):
+                userNick = command[1]
+                commandList = command[2:]
+                message = ' '.join(commandList)
+                if rmd.add_message(userNick, user, message):
+                    self.sendMessage("Set reminder '" + message + "'" + " for user " + userNick, channel)
+                else:
+                    self.sendMessage("Couldn't set the reminder '" + message "' for " + userNick, channel)
 
     def join_channel(self,channel):
         if (channel[0] == "#"):
