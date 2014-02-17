@@ -6,7 +6,7 @@ import cPickle as pickle
 from random import randint
 from time import localtime, strftime, mktime
 
-import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck, remind
+import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck, remind#, wolfram, translate
 
 np = nowPlaying
 bm = bookmark
@@ -14,6 +14,8 @@ gw = googlewiki
 url = urlDetection
 rmd = remind
 reddit = redditcheck.RedditCheck()
+#wlf = wolfram
+#tran = translate
 
 authname = botvariables.authname
 authpass = botvariables.authpass
@@ -197,7 +199,7 @@ class Bot:
                 str_buff = str(user + 'rolled(1-10): ' + number)
                 self.sendMessage(str_buff, channel)
             if (command[0] == 'help'):
-                self.sendMessage('Available commands: roll, bm, reddit, google, np', channel)
+                self.sendMessage('Available commands: roll, bm, reddit, google, np, remind, translate, wolfram', channel)
 
         else:
             if (command[0] == 'help'):
@@ -218,6 +220,10 @@ class Bot:
                 if (command[1] == 'np'):
                     self.sendMessage("!np <username> will check if <username> is playing anything on steam. To add yourself to the bots 'database', type !setsteam <SteamCustomURL>. ", channel)
                     self.sendMessage('<SteamCustomURL> can be found in the Steam Client -> Community -> Edit profile -> Custom URL', channel)
+                if (command[1] == 'remind'):
+                    self.sendMessage('!remind <user> <message> will remind <user> of <message> the next time he/she joins the channel', channel)
+                if (command[1] == 'translate' or command[1] == 'wolfram'):
+                    self.sendMessage('Not yet implemented...', channel)
 
             #they see me rolling
             if (command[0] == 'roll'):
@@ -246,7 +252,7 @@ class Bot:
                     self.sendMessage(str_buff, channel)
             #Now Playing gaem
             if (command[0] == 'np'):
-                str_buff = str(user + np.nowPlaying(command[1]))
+                str_buff = str(np.nowPlaying(command[1]))
                 self.sendMessage(str_buff, channel)
             if (command[0] == 'setsteam'):
                 if np.setSteam(user, command[1]):
@@ -263,6 +269,24 @@ class Bot:
                 self.sendMessage('First result for: ' + searchString, channel)
                 self.sendMessage(url.getURLTitle(URL), channel)
                 self.sendMessage(URL, channel)
+
+            # if (command[0] == 'wolfram'):
+            #     commandList = command[1:]
+            #     searchString = ' '.join(commandList)
+                
+            #     wolf = wlf.ask_wolfram(searchString)
+
+            #     self.sendMessage(wolf, channel)             
+
+
+            # if (command[0] == 'translate'):
+            #     lang = command[1]
+            #     commandList = command[2:]
+            #     searchString = ' '.join(commandList)
+                
+            #     translation = tran.translate(searchString, language)
+
+            #     self.sendMessage(translation, channel)
 
             if (command[0] == 'bm'):
                 if (len(command) > 2):

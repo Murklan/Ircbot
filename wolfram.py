@@ -1,5 +1,6 @@
-import wolframalpha
-client = wolframalpha.Client("6L26HY-PHR2XXGER9")
+import wolframalpha, botvariables
+
+client = wolframalpha.Client(botvariables.wolfram)
 
 def ask_wolfram(phrase):
 	res = client.query(phrase)

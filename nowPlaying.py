@@ -12,8 +12,8 @@ def nowPlaying(nickname):
         with open('nowPlaying', 'rb') as f:
             npDict = pickle.load(f)
 
-            if npDict[nickname + "steam"]:
-                gameNick = npDict[nickname + "steam"]
+            if npDict[nickname]:
+                gameNick = npDict[nickname]
                 steamMessage = steamStatus(gameNick) 
     except :
         steamMessage =  str(nickname + " is misspelled or does not exist. To add your Steam CustomURL ID type !setsteam <steamcustomurlid>")
@@ -45,7 +45,7 @@ def setSteam(nickname, parameter):
         steamUserData = json.load(urllib2.urlopen(STEAM_API_URL + '/?key=' + STEAM_API_KEY + '&steamids=' + steamid))
 
         if steamUserData['response']['players'][0]['profilestate']:
-            npDict[nickname.lower() + "steam"] = parameter  
+            npDict[nickname] = parameter  
     except:
         return False
 
@@ -65,9 +65,9 @@ def steamStatus(nickname):
     if userData['response']['players'][0]['personastate'] >= 1:
         try:
             currentlyPlaying = userData['response']['players'][0]['gameextrainfo']
-            return " is currently Online and playing " + currentlyPlaying + " on Steam"
+            return nickname + " is currently Online and playing " + currentlyPlaying + " on Steam"
         except KeyError:
-            return " is currently Online but not playing anything on Steam"
+            return nickname + " is currently Online but not playing anything on Steam"
     else:
         return "Offline"
 
