@@ -6,7 +6,7 @@ import cPickle as pickle
 from random import randint
 from time import localtime, strftime, mktime
 
-import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck, remind#, wolfram, translate
+import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck, remind, translate# ,wolfram
 
 np = nowPlaying
 bm = bookmark
@@ -15,7 +15,7 @@ url = urlDetection
 rmd = remind
 reddit = redditcheck.RedditCheck()
 #wlf = wolfram
-#tran = translate
+tran = translate
 
 authname = botvariables.authname
 authpass = botvariables.authpass
@@ -113,7 +113,7 @@ class Bot:
                     message = ' '.join(rmd.get_messages(userNick))
                     self.sendMessage(message, channel)
             
-            if str(recv).find("PRIVMSG") != -1:
+            if str(recv).find("PRIVMSG") != -1 and str(recv).find(self.channel) != -1:
                 userNick = str(recv).split('!')[0].split(':')[1]
                 userHost = str(recv).split("@")[1].split(' ')[0]
                 userMessage = self.messageData(str(recv))
@@ -276,17 +276,17 @@ class Bot:
                 
             #     wolf = wlf.ask_wolfram(searchString)
 
-            #     self.sendMessage(wolf, channel)             
+            #     self.sendMessage('wolf', channel)             
 
 
-            # if (command[0] == 'translate'):
-            #     lang = command[1]
-            #     commandList = command[2:]
-            #     searchString = ' '.join(commandList)
+            if (command[0] == 'translate'):
+                lang = command[1]
+                commandList = command[2:]
+                searchString = ' '.join(commandList)
                 
-            #     translation = tran.translate(searchString, language)
+                translation = tran.translate(searchString, lang)
 
-            #     self.sendMessage(translation, channel)
+                self.sendMessage(translation, channel)
 
             if (command[0] == 'bm'):
                 if (len(command) > 2):
