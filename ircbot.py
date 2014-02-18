@@ -6,7 +6,7 @@ import cPickle as pickle
 from random import randint
 from time import localtime, strftime, mktime
 
-import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck, remind, translate# ,wolfram
+import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck, remind, translate, wolfram
 
 np = nowPlaying
 bm = bookmark
@@ -14,7 +14,7 @@ gw = googlewiki
 url = urlDetection
 rmd = remind
 reddit = redditcheck.RedditCheck()
-#wlf = wolfram
+wlf = wolfram
 tran = translate
 
 authname = botvariables.authname
@@ -272,13 +272,13 @@ class Bot:
                 self.sendMessage(url.getURLTitle(URL), channel)
                 self.sendMessage(URL, channel)
 
-            # if (command[0] == 'wolfram'):
-            #     commandList = command[1:]
-            #     searchString = ' '.join(commandList)
+            if (command[0] == 'wolfram'):
+                commandList = command[1:]
+                searchString = ' '.join(commandList)
                 
-            #     wolf = wlf.ask_wolfram(searchString)
+                wolf = wlf.ask_wolfram(searchString).encode('utf-8')
 
-            #     self.sendMessage('wolf', channel)             
+                self.sendMessage(wolf, channel)             
 
 
             if (command[0] == 'translate'):
