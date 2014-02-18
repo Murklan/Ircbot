@@ -288,7 +288,7 @@ class Bot:
                 
                 translation = (tran.translate(searchString, lang)).encode('utf-8')
 
-                self.sendMessage(translation, channel)
+                self.sendMessage('"' + translation + '"', channel)
 
             if (command[0] == 'bm'):
                 if (len(command) > 2):
