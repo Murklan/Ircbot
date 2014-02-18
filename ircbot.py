@@ -222,7 +222,9 @@ class Bot:
                     self.sendMessage('<SteamCustomURL> can be found in the Steam Client -> Community -> Edit profile -> Custom URL', channel)
                 if (command[1] == 'remind'):
                     self.sendMessage('!remind <user> <message> will remind <user> of <message> the next time he/she joins the channel', channel)
-                if (command[1] == 'translate' or command[1] == 'wolfram'):
+                if (command[1] == 'translate'): 
+                    self.sendMessage('!translate <lang> <phrase> will translate <phrase> into the language <lang>')
+                if (command[1] == 'wolfram'):
                     self.sendMessage('Not yet implemented...', channel)
 
             #they see me rolling
@@ -284,7 +286,7 @@ class Bot:
                 commandList = command[2:]
                 searchString = ' '.join(commandList)
                 
-                translation = tran.translate(searchString, lang)
+                translation = (tran.translate(searchString, lang)).encode('utf-8')
 
                 self.sendMessage(translation, channel)
 
