@@ -7,4 +7,4 @@ def ask_wolfram(phrase):
 	try:
 		return next(res.results).text
 	except:
-		return "No results fround"
+		return "No results found"
