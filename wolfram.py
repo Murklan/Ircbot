@@ -4,4 +4,7 @@ client = wolframalpha.Client(botvariables.wolfram)
 
 def ask_wolfram(phrase):
 	res = client.query(phrase)
-	return next(res.results).text
+	try:
+		return next(res.results).text
+	except:
+		return "No results fround"
