@@ -20,6 +20,7 @@ tran = translate
 authname = botvariables.authname
 authpass = botvariables.authpass
 adminHost = botvariables.admin
+moderatorHost = botvariables.moderator
 
 STEAM_API_KEY = botvariables.STEAM_API_KEY
 STEAM_API_URL = botvariables.STEAM_API_URL
