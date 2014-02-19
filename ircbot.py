@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import socket, praw, json, time, datetime, threading
+import socket, praw, json, time, datetime, threading, os
 import cPickle as pickle
 from random import randint
 from time import localtime, strftime, mktime
@@ -54,7 +54,7 @@ class Bot:
             recv = self.irc_socket.recv(4096)
             print recv
 
-            if recv.find('Found your hostname') != -1:
+            if recv.find('Found your hostname') != -1 or recv.find("Couldn't look up your hostname") != -1:
 
                 str_buff = ('NICK %s \r\n') % (self.nick)
                 self.irc_socket.send(str_buff.encode())
@@ -161,12 +161,16 @@ class Bot:
                 #things with only one parameter
                 
                 #shuts down bot
-                if (command[0] == 'quit'):
-                    str_buff = ('QUIT %s \r\n') % str("Screw you guys! I'm going home!")
+                if (command[0] == 'quit' or command[0] == 'restart'):
+                    str_buff = ("QUIT Screw you guys! I'm going home!\r\n")
                     self.irc_socket.send(str_buff.encode())
                     self.irc_socket.close()
                     self.is_connected = False
                     self.reconnect = False
+                    if (command[0] == 'restart'):
+                        os.execl('restartbot.sh','')
+
+                
             else:
                 #!join <channel>
                 if (command[0] == "join"):
@@ -196,7 +200,7 @@ class Bot:
 
             if (command[0] == 'roll'):
                 number = str(randint(1,10))
-                str_buff = str(user + 'rolled(1-10): ' + number)
+                str_buff = str(user + ' rolled(1-10): ' + number)
                 self.sendMessage(str_buff, channel)
             if (command[0] == 'help'):
                 self.sendMessage('Available commands: roll, bm, reddit, google, np, remind, translate, wolfram', channel)
