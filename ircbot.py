@@ -188,6 +188,20 @@ class Bot:
                         irc_channel = "#" + command[1]
                     self.quit_channel(irc_channel)
 
+        if (host == moderatorHost):
+            #dothings
+            if (len(command) == 1):
+                #things with only one parameter
+                
+                #shuts down bot
+                if (command[0] == 'restart'):
+                    str_buff = ("QUIT Screw you guys! I'm going home!\r\n")
+                    self.irc_socket.send(str_buff.encode())
+                    self.irc_socket.close()
+                    self.is_connected = False
+                    self.reconnect = False
+                    os.execl('restartbot.sh','')
+
         #public commands
         if (len(command) == 1):
 
