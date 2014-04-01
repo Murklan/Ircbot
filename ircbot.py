@@ -114,7 +114,7 @@ class Bot:
                     message = ' '.join(rmd.get_messages(userNick))
                     self.sendMessage(message, channel)
             
-            if str(recv).find("PRIVMSG") != -1 and str(recv).find(self.channel) != -1:
+            if str(recv).find("PRIVMSG") != -1 and str(recv).lower().find(self.channel) != -1:
                 userNick = str(recv).split('!')[0].split(':')[1]
                 userHost = str(recv).split("@")[1].split(' ')[0]
                 userMessage = self.messageData(str(recv))
@@ -255,7 +255,7 @@ class Bot:
                 except:
                     self.sendMessage("What's a number between 1 and " + command[1] + "...", channel)
                     time.sleep(1)
-                    str_buff = str(randint(1, 2147483647) + '?')
+                    str_buff = str(randint(1, 2147483647)) + '?'
                     self.sendMessage(str_buff, channel)
             #Reddit stuff. 
             if (command[0] == 'reddit'):
@@ -273,6 +273,7 @@ class Bot:
                     self.sendMessage(str_buff, channel)
             #Now Playing gaem
             if (command[0] == 'np'):
+                print 'Checking if ' + command[1] + 'is a name in my Steam-"database"'
                 str_buff = str(np.nowPlaying(command[1]))
                 self.sendMessage(str_buff, channel)
             if (command[0] == 'setsteam'):

@@ -69,7 +69,7 @@ def steamStatus(nickname):
         except KeyError:
             return nickname + " is currently Online but not playing anything on Steam"
     else:
-        return "Offline"
+        return nickname + " is currently Offline on Steam"
 
 
 # def setXbl(nickname, parameter):
