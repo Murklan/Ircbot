@@ -6,7 +6,7 @@ import cPickle as pickle
 from random import randint
 from time import localtime, strftime, mktime
 
-import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck, remind, translate, wolfram
+import botvariables, nowPlaying, bookmark, googlewiki, urlDetection, redditcheck, remind, translate, wolfram, mtgsearch
 
 np = nowPlaying
 bm = bookmark
@@ -16,6 +16,7 @@ rmd = remind
 reddit = redditcheck.RedditCheck()
 wlf = wolfram
 tran = translate
+mtg = mtgsearch
 
 authname = botvariables.authname
 authpass = botvariables.authpass
@@ -120,7 +121,7 @@ class Bot:
                 userMessage = self.messageData(str(recv))
                 print "(" + strftime("%H:%M:%S", localtime()) + ")<" + userNick + "> " + userMessage
                 #Checks for a command
-                if (str(userMessage[0]) == '!' or str(userMessage[0] == '！')):
+                if (str(userMessage[0]) == '!'):
                     self.command = str(userMessage[1:])
                     self.process_command(userNick, userHost, ((str(recv)).split()[2]))
                 if (str(userMessage).find('ACTION ' + self.nick) != -1):
@@ -330,6 +331,22 @@ class Bot:
                     self.sendMessage("Set reminder '" + message + "'" + " for user " + userNick, channel)
                 else:
                     self.sendMessage("Couldn't set the reminder '" + message + "' for " + userNick, channel)
+
+            if (command[0] == 'mtg'):
+                commandList = command[1:]
+                searchName = ' '.join(commandList)
+
+                try:
+                    cardInfo = mtg.cardSearch(searchName)
+                    cardPrices = mtg.cardPrice(searchName, cardInfo[2])
+
+                    priceMessage = (cardInfo[2] + ' > From: ' + cardPrices[0] + u' € Avg: ' + cardPrices[1] + ' Foil: ' + cardPrices[2]).encode('utf-8') + '\r'
+
+                    self.sendMessage(cardInfo[1], channel)
+                    self.sendMessage(priceMessage, channel)
+                except:
+                    self.sendMessage("Can't find the card " + searchName, channel)
+
 
     def join_channel(self,channel):
         if (channel[0] == "#"):
