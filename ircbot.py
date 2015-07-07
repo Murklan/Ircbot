@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#Adding this random comment to test Jenkins CI
-
 import socket, praw, json, time, datetime, threading, os
 import cPickle as pickle
 from random import randint
