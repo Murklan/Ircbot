@@ -15,8 +15,8 @@ def cardSearch(cardname):
     cardSetName = cardData[cardname]['printings'][0]
     cardSet = cardSetList[cardSetName]
 
-    for k, card in cardSet['cards'].itervalues():
-    	if card.name == cardName:
+    for k, card in cardSet['cards']:
+    	if card.name == cardme:
     		cardMultiverseId = card['multiverseid']
     		break
     
