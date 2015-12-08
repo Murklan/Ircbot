@@ -8,14 +8,27 @@ import requests
 
 def cardSearch(name):
 
-    searchUrl = 'http://api.mtgdb.info/cards/' + name
+    cardData = json.load(urllib2.urlopen('http://mtgjson.com/json/AllCards-x.json'))
+    cardSet = json.load(urllib2.urlopen('http://mtgjson.com/json/AllSets.json'))
 
-    cardData = json.load(urllib2.urlopen(searchUrl))
-    cardName = cardData[0]['name']
-    cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardData[0]['id'])
-    cardSet = cardData[0]['cardSetName']   
+    print cardData[cardname]
 
-    return [cardName, cardInfo, cardSet]
+    print cardData[cardname]['name']
+
+    cardName = cardData[cardname]['name']
+
+    print cardData[cardname]['printings']
+
+    return cardName
+
+    # searchUrl = 'http://api.mtgdb.info/cards/' + name
+
+    # cardData = json.load(urllib2.urlopen(searchUrl))
+    # cardName = cardData[0]['name']
+    # cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardData[0]['id'])
+    # cardSet = cardData[0]['cardSetName']   
+
+    # return [cardName, cardInfo, cardSet]
 
 
 
