@@ -6,7 +6,7 @@ from lxml import html
 import requests
 
 
-def cardSearch(name):
+def cardSearch(cardname):
 
     cardData = json.load(urllib2.urlopen('http://mtgjson.com/json/AllCards-x.json'))
     cardSetList = json.load(urllib2.urlopen('http://mtgjson.com/json/AllSets.json'))
@@ -15,8 +15,8 @@ def cardSearch(name):
     cardSetName = cardData[cardname]['printings'][0]
     cardSet = cardSetList[cardSetName]
 
-    for k, card in cardSet.itervalues():
-    	if name == cardName:
+    for k, card in cardSet['cards'].itervalues():
+    	if card.name == cardName:
     		cardMultiverseId = card['multiverseid']
     		break
     
