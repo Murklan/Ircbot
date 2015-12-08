@@ -24,10 +24,8 @@ def cardSearch(cardname):
     
     print cardName
     print cardInfo
-    print cardSet
 
-
-    return [cardName, cardInfo, cardSet]
+    return [cardName, cardInfo, cardSetName]
 
     # cardName = 'http://api.mtgdb.info/cards/' + name
 
