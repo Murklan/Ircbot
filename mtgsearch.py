@@ -19,9 +19,9 @@ def cardSearch(name):
 
     print cardData[cardname]['printings']
 
-    return cardName
+    return searchUrl
 
-    # searchUrl = 'http://api.mtgdb.info/cards/' + name
+    # cardName = 'http://api.mtgdb.info/cards/' + name
 
     # cardData = json.load(urllib2.urlopen(searchUrl))
     # cardName = cardData[0]['name']
@@ -46,3 +46,7 @@ def cardPrice(cardName, expansion):
 	except:
 		priceFoil = u'N/A'
 	return [priceFrom, priceAvg, priceFoil]
+
+while(True):
+	cardname = raw_input()
+	cardSearch(cardname)
