@@ -11,14 +11,11 @@ def cardSearch(name):
     cardData = json.load(urllib2.urlopen('http://mtgjson.com/json/AllCards-x.json'))
     cardSetList = json.load(urllib2.urlopen('http://mtgjson.com/json/AllSets.json'))
 
-    print cardData[cardname]
-    print cardData[cardname]['name']
-
     cardName = cardData[cardname]['name']
     cardSetName = cardData[cardname]['printings'][0]
     cardSet = cardSetList[cardSetName]
 
-    for c, card in cardSet['cards']:
+    for _. card in cardSet.itervalues():
     	if name == cardName:
     		cardMultiverseId = card['multiverseid']
     		break
