@@ -20,7 +20,7 @@ def cardSearch(cardname):
     		cardMultiverseId = card['multiverseid']
     		break
     
-    cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + cardMultiverseId
+    cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardMultiverseId)
     
     print cardName
     print cardInfo
