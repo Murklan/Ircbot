@@ -16,8 +16,8 @@ def cardSearch(name):
 
     cardName = cardData[cardname]['name']
     cardSet = cardData[cardname]['printings'][0]
-    cardInfo = cardSetsList[cardSet][cardname]
-
+    cardInfo = cardSetsList[cardSet]
+    
     print cardInfo
     print cardSet
 
