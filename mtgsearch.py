@@ -17,9 +17,9 @@ def cardSearch(name):
 
     cardName = cardData[cardname]['name']
 
-    print cardData[cardname]['printings']
+    print cardData[cardname]['printings'][0]
 
-    return searchUrl
+    return cardName
 
     # cardName = 'http://api.mtgdb.info/cards/' + name
 
