@@ -54,7 +54,7 @@ def cardPrice(cardname, expansion):
 	except:
 		priceFoil = u'N/A'
 
-	priceMessage = (cardName + ' > From: ' + priceFrom + u' € Avg: ' + priceAvg + ' Foil: ' + priceFoil + '\r'
+	priceMessage = cardName + ' > From: ' + priceFrom + u' € Avg: ' + priceAvg + ' Foil: ' + priceFoil + '\r'
 	print priceMessage
 
 	return priceMessage
