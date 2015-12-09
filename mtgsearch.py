@@ -16,26 +16,26 @@ def cardSearch(cardname):
 	cardSet = cardSetList[cardSetName]
 	print cardSetName
 
-	# try:
-	print 'Getting multiverseid'
-	for card in cardSet['cards']:
-		if card['name'] == cardname:
-			cardMultiverseId = card['multiverseid']
-			print cardMultiverseId
-			break
-	# except KeyError:
-	# 	print 'KeyError while getting id'
-	# 	cardSetName = cardData[cardname]['printings'][1]
-	# 	for card in cardSet['cards']:
-	# 		if card['name'] == cardname:
-	# 			cardMultiverseId = card['multiverseid']
-	# 			print multiverseid
-	# 			break
+	try:
+		print 'Getting multiverseid'
+		for card in cardSet['cards']:
+			if card['name'] == cardname:
+				cardMultiverseId = card['multiverseid']
+				print cardMultiverseId
+				break
+	except KeyError:
+		print 'KeyError while getting id'
+		cardSetName = cardData[cardname]['printings'][1]
+		for card in cardSet['cards']:
+			if card['name'] == cardname:
+				cardMultiverseId = card['multiverseid']
+				print cardMultiverseId
+				break
 
 	cardSetNameFull = cardSet['name']
-	print cardSetName
+	print cardSetNameFull
 	cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardMultiverseId)
-
+	print cardInfo
 	return [cardName, cardInfo, cardSetNameFull]
 
 def cardPrice(cardname, expansion):
