@@ -133,6 +133,7 @@ class Bot:
                 if (str(userMessage).find(' alot') != -1 or str(userMessage).find('alot ') != -1):
                     self.sendMessage(('http://murklan.eu/img/alot.png'), (str(recv)).split()[2])
                 if (str(userMessage).find('http://') != -1 or str(userMessage).find('https://') != -1 and not str(userMessage).find('blacklotus.net') != -1):
+                    reload(urlDetection)
                     URL = url.getURLTitle(userMessage)
                     self.sendMessage(URL, str(recv).split()[2])
         if self.reconnect:
@@ -262,6 +263,7 @@ class Bot:
                     self.sendMessage(str_buff, channel)
             #Reddit stuff. 
             if (command[0] == 'reddit'):
+                reload(redditcheck)
                 if (command[1] == 'firstpost'):
                     try:
                         str_buff = reddit.redditFirst(command[2]).encode('utf-8')
@@ -276,10 +278,12 @@ class Bot:
                     self.sendMessage(str_buff, channel)
             #Now Playing gaem
             if (command[0] == 'np'):
+                reload(nowPlaying)
                 print 'Checking if ' + command[1] + 'is a name in my Steam-"database"'
                 str_buff = str(np.nowPlaying(command[1]))
                 self.sendMessage(str_buff, channel)
             if (command[0] == 'setsteam'):
+                reload(nowPlaying)
                 if np.setSteam(user, command[1]):
                     str_buff = str('Successfully set ' + command[1] + ' as SteamID for ' + user)
                     self.sendMessage(str_buff, channel)
@@ -287,6 +291,7 @@ class Bot:
                     self.sendMessage("Something went wrong while trying to set " + command[1] + " as SteamID for " + user + " :(", channel)
 
             if (command[0] == 'google'):
+                reload(googlewiki)
                 commandList = command[1:]
                 searchString = ' '.join(commandList)
                 URL = gw.googleSearch(searchString)
@@ -314,6 +319,7 @@ class Bot:
                 self.sendMessage('"' + translation + '"', channel)
 
             if (command[0] == 'bm'):
+                reload(bookmark)
                 if (len(command) > 2):
                     if (command[1] == 'del'):
                         self.sendMessage(bm.deleteBookmark(command[2]), channel)
@@ -326,6 +332,7 @@ class Bot:
                         self.sendMessage(bm.getBookmark(command[1]), channel)
 
             if (command[0] == 'remind'):
+                reload(remind)
                 userNick = command[1]
                 commandList = command[2:]
                 message = ' '.join(commandList)
@@ -335,19 +342,21 @@ class Bot:
                     self.sendMessage("Couldn't set the reminder '" + message + "' for " + userNick, channel)
 
             if (command[0] == 'mtg'):
+                reload(mtgsearch)
                 commandList = command[1:]
                 searchName = ' '.join(commandList)
 
                 try:
                     cardInfo = mtg.cardSearch(searchName)
-                    cardPrices = mtg.cardPrice(searchName, cardInfo[2])
 
-                    priceMessage = (cardInfo[2] + ' > From: ' + cardPrices[0] + u' € Avg: ' + cardPrices[1] + ' Foil: ' + cardPrices[2]).encode('utf-8') + '\r'
-
-                    self.sendMessage(cardInfo[1], channel)
-                    self.sendMessage(priceMessage, channel)
+                    self.sendMessage(cardInfo[0], channel)
                 except:
                     self.sendMessage("Can't find the card " + searchName, channel)
+
+                try:
+                    self.sendMessage(mtg.cardPrice(searchName, cardInfo[1]), channel)
+                except:
+                    self.sendMessage("Can't find the price for the card " + searchName + " (This is borked, will fix someday)", channel)
 
 
     def join_channel(self,channel):
