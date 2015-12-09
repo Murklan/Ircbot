@@ -14,35 +14,28 @@ def cardSearch(cardname):
     cardName = cardData[cardname]['name']
     cardSetName = cardData[cardname]['printings'][0]
     cardSet = cardSetList[cardSetName]
+    cardSetNameFull = cardSet['name']
 
-    for card in cardSet['cards']:
-    	if card['name'] == cardname:
-    		cardMultiverseId = card['multiverseid']
-    		break
-    
+    try:
+	    for card in cardSet['cards']:
+	    	if card['name'] == cardname:
+	    		cardMultiverseId = card['multiverseid']
+	    		break
+	except KeyError:
+		cardSetName = cardData[cardname]['printings'][1]
+		for card in cardSet['cards']:
+	    	if card['name'] == cardname:
+	    		cardMultiverseId = card['multiverseid']
+	    		break
+ 
     cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardMultiverseId)
-    
-    print cardName
-    print cardInfo
 
-    return [cardName, cardInfo, cardSetName]
+    return [cardName, cardInfo, cardSetNameFull]
 
-    # cardName = 'http://api.mtgdb.info/cards/' + name
-
-    # cardData = json.load(urllib2.urlopen(searchUrl))
-    # cardName = cardData[0]['name']
-    # cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardData[0]['id'])
-    # cardSet = cardData[0]['cardSetName']   
-
-    # return [cardName, cardInfo, cardSet]
-
-
-
-def cardPrice(cardName, expansion):
-
+def cardPrice(cardname, expansion):
 
 	cardSet = expansion.replace(' ', '+')
-	page = requests.get('https://www.magiccardmarket.eu/Products/Singles/' + cardSet + '/' + cardName)
+	page = requests.get('https://www.magiccardmarket.eu/Products/Singles/' + cardSet + '/' + cardname)
 	tree = html.fromstring(page.text)
 
 	priceFrom = tree.xpath(u'//*[@id="siteContents"]/div/div[3]/div[1]/div[2]/table/tbody/tr[2]/td[2]/span[1]')[0].text
@@ -52,7 +45,3 @@ def cardPrice(cardName, expansion):
 	except:
 		priceFoil = u'N/A'
 	return [priceFrom, priceAvg, priceFoil]
-
-while(True):
-	cardname = raw_input()
-	cardSearch(cardname)
