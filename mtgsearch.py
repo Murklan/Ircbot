@@ -14,20 +14,24 @@ def cardSearch(cardname):
 	cardName = cardData[cardname]['name']
 	cardSetName = cardData[cardname]['printings'][0]
 	cardSet = cardSetList[cardSetName]
+	print cardSetName
 
 	try:
 		for card in cardSet['cards']:
 			if card['name'] == cardname:
 				cardMultiverseId = card['multiverseid']
+				print multiverseid
 				break
 	except KeyError:
 		cardSetName = cardData[cardname]['printings'][1]
 		for card in cardSet['cards']:
 			if card['name'] == cardname:
 				cardMultiverseId = card['multiverseid']
+				print multiverseid
 				break
 
 	cardSetNameFull = cardSet['name']
+	print cardSetName
 	cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardMultiverseId)
 
 	return [cardName, cardInfo, cardSetNameFull]
