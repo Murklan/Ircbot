@@ -8,29 +8,29 @@ import requests
 
 def cardSearch(cardname):
 
-    cardData = json.load(urllib2.urlopen('http://mtgjson.com/json/AllCards-x.json'))
-    cardSetList = json.load(urllib2.urlopen('http://mtgjson.com/json/AllSets.json'))
+	cardData = json.load(urllib2.urlopen('http://mtgjson.com/json/AllCards-x.json'))
+	cardSetList = json.load(urllib2.urlopen('http://mtgjson.com/json/AllSets.json'))
 
-    cardName = cardData[cardname]['name']
-    cardSetName = cardData[cardname]['printings'][0]
-    cardSet = cardSetList[cardSetName]
-    cardSetNameFull = cardSet['name']
+	cardName = cardData[cardname]['name']
+	cardSetName = cardData[cardname]['printings'][0]
+	cardSet = cardSetList[cardSetName]
 
-    try:
-	    for card in cardSet['cards']:
-	    	if card['name'] == cardname:
-	    		cardMultiverseId = card['multiverseid']
-	    		break
+	try:
+		for card in cardSet['cards']:
+			if card['name'] == cardname:
+				cardMultiverseId = card['multiverseid']
+				break
 	except KeyError:
 		cardSetName = cardData[cardname]['printings'][1]
 		for card in cardSet['cards']:
-	    	if card['name'] == cardname:
-	    		cardMultiverseId = card['multiverseid']
-	    		break
- 
-    cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardMultiverseId)
+			if card['name'] == cardname:
+				cardMultiverseId = card['multiverseid']
+				break
 
-    return [cardName, cardInfo, cardSetNameFull]
+	cardSetNameFull = cardSet['name']
+	cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardMultiverseId)
+
+	return [cardName, cardInfo, cardSetNameFull]
 
 def cardPrice(cardname, expansion):
 
