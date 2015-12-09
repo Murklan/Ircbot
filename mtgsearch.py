@@ -26,6 +26,7 @@ def cardSearch(cardname):
 	except KeyError:
 		print 'KeyError while getting id'
 		cardSetName = cardData[cardname]['printings'][1]
+		print cardSetName
 		for card in cardSet['cards']:
 			if card['name'] == cardname:
 				cardMultiverseId = card['multiverseid']
