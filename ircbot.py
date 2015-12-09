@@ -102,8 +102,10 @@ class Bot:
     def listen(self):
         while self.is_connected:
             recv = self.irc_socket.recv(4096)
-            #uncomment to print the recieved data
+
+            #uncommented to print the recieved data
             #print recv
+
             if str(recv).find("PING") != -1:
                 self.irc_socket.send("PONG ".encode() + recv.split()[1] + "\r\n".encode())
 
@@ -124,8 +126,8 @@ class Bot:
                 if (str(userMessage[0]) == '!'):
                     self.command = str(userMessage[1:])
                     self.process_command(userNick, userHost, ((str(recv)).split()[2]))
-                if (str(userMessage).find('ACTION ' + self.nick) != -1):
-                    self.sendMessage((userNick + ', SCHACKMATT!'), (str(recv)).split()[2])
+                # if (str(userMessage).find('ACTION ' + self.nick) != -1):
+                #     self.sendMessage((userNick + ', SCHACKMATT!'), (str(recv)).split()[2])
                 if (str(userMessage).find('slaps ' + self.nick) != -1 and str(userMessage).find('with a large trout') != -1):
                     self.sendMessage((userNick + ', This is the Trout Protection Agency. Please put the trout down and put your hands in the air'), (str(recv)).split()[2])
                 if (str(userMessage).find(' alot') != -1 or str(userMessage).find('alot ') != -1):
@@ -286,7 +288,7 @@ class Bot:
                     str_buff = str('Successfully set ' + command[1] + ' as SteamID for ' + user)
                     self.sendMessage(str_buff, channel)
                 else:
-                    self.sendMessage("Successfully didn't set " + command[1] + " as SteamID for " + user + " :(", channel)
+                    self.sendMessage("Something went wrong while trying to set " + command[1] + " as SteamID for " + user + " :(", channel)
 
             if (command[0] == 'google'):
                 reload(googlewiki)
