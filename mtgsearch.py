@@ -40,6 +40,7 @@ def cardSearch(cardname):
 
 def cardPrice(cardname, expansion):
 
+	print 'Getting Price of ' + cardname + ' in ' + expansion
 	cardSet = expansion.replace(' ', '+')
 	page = requests.get('https://www.magiccardmarket.eu/Products/Singles/' + cardSet + '/' + cardname)
 	tree = html.fromstring(page.text)
