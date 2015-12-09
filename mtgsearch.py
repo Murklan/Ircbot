@@ -8,7 +8,6 @@ import requests
 
 def cardSearch(cardname):
 
-<<<<<<< HEAD
 	cardData = json.load(urllib2.urlopen('http://mtgjson.com/json/AllCards-x.json'))
 	cardSetList = json.load(urllib2.urlopen('http://mtgjson.com/json/AllSets.json'))
 
@@ -44,7 +43,6 @@ def cardSearch(cardname):
 def cardPrice(cardname, expansion):
 
 	print 'Getting Price of ' + cardname + ' in ' + expansion
-=======
     searchUrl = 'http://api.mtgdb.info/cards/' + name
 
     cardData = json.load(urllib2.urlopen(searchUrl))
