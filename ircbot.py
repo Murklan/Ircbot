@@ -348,10 +348,13 @@ class Bot:
                     cardInfo = mtg.cardSearch(searchName)
 
                     self.sendMessage(cardInfo[0], channel)
-
-                    self.sendMessage(mtg.cardPrice(searchName, cardInfo[1]), channel)
                 except:
                     self.sendMessage("Can't find the card " + searchName, channel)
+
+                try:
+                    self.sendMessage(mtg.cardPrice(searchName, cardInfo[1]), channel)
+                except:
+                    self.sendMessage("Can't find the price for the card " + searchName + " (This is borked, will fix someday)", channel)
 
 
     def join_channel(self,channel):
