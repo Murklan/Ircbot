@@ -17,12 +17,14 @@ def cardSearch(cardname):
 	print cardSetName
 
 	try:
+		print 'Getting multiverseid'
 		for card in cardSet['cards']:
 			if card['name'] == cardname:
 				cardMultiverseId = card['multiverseid']
 				print multiverseid
 				break
 	except KeyError:
+		print 'KeyError while getting id'
 		cardSetName = cardData[cardname]['printings'][1]
 		for card in cardSet['cards']:
 			if card['name'] == cardname:
