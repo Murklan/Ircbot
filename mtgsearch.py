@@ -40,22 +40,8 @@ def cardSearch(cardname):
 	print cardInfo
 	return [cardInfo, cardSetNameFull]
 
-def cardPrice(cardname, expansion):
-
-	print 'Getting Price of ' + cardname + ' in ' + expansion
-    searchUrl = 'http://api.mtgdb.info/cards/' + name
-
-    cardData = json.load(urllib2.urlopen(searchUrl))
-    cardName = cardData[0]['name']
-    cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardData[0]['id'])
-    cardSet = cardData[0]['cardSetName']   
-    return [cardName, cardInfo, cardSet]
-
-
-
 def cardPrice(cardName, expansion):
 
->>>>>>> master
 	cardSet = expansion.replace(' ', '+')
 	page = requests.get('https://www.magiccardmarket.eu/Products/Singles/' + cardSet + '/' + cardname)
 	tree = html.fromstring(page.text)
