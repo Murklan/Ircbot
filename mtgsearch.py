@@ -38,7 +38,7 @@ def cardSearch(cardname):
 	print cardSetNameFull
 	cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardMultiverseId)
 	print cardInfo
-	return [cardName, cardInfo, cardSetNameFull]
+	return [cardInfo, cardSetNameFull]
 
 def cardPrice(cardname, expansion):
 
@@ -53,4 +53,9 @@ def cardPrice(cardname, expansion):
 		priceFoil = tree.xpath(u'//*[@id="siteContents"]/div/div[3]/div[1]/div[2]/table/tbody/tr[5]/td[2]')[0].text
 	except:
 		priceFoil = u'N/A'
-	return [priceFrom, priceAvg, priceFoil]
+
+	priceMessage = (cardName + ' > From: ' + priceFrom + u' € Avg: ' + priceAvg + ' Foil: ' + priceFoil + '\r'
+	print priceMessage
+
+	return priceMessage
+

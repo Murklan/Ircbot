@@ -346,12 +346,10 @@ class Bot:
 
                 try:
                     cardInfo = mtg.cardSearch(searchName)
-                    cardPrices = mtg.cardPrice(searchName, cardInfo[2])
 
-                    priceMessage = (cardInfo[2] + ' > From: ' + cardPrices[0] + u' € Avg: ' + cardPrices[1] + ' Foil: ' + cardPrices[2]).encode('utf-8') + '\r'
+                    self.sendMessage(cardInfo[0], channel)
 
-                    self.sendMessage(cardInfo[1], channel)
-                    self.sendMessage(priceMessage, channel)
+                    self.sendMessage(mtg.cardPrice(searchName, cardInfo[1]), channel)
                 except:
                     self.sendMessage("Can't find the card " + searchName, channel)
 
