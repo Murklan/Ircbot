@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import json
-import urllib2
 from lxml import html
 import requests
 
 
 def card_search(name):
-    carddata = json.load(urllib2.urlopen('http://mtgjson.com/json/AllCards-x.json'))
-    cardsetlist = json.load(urllib2.urlopen('http://mtgjson.com/json/AllSets.json'))
+    carddata = json.load('AllCards-x.json')
+    cardsetlist = json.load('AllSets-x.json')
 
     name = carddata[name]['name']
     setname = carddata[name]['printings'][0]
