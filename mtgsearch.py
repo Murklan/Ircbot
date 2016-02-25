@@ -1,60 +1,61 @@
 # -*- coding: utf-8 -*-
 
 import json
-import urllib2
 from lxml import html
 import requests
 
 
-def cardSearch(cardname):
+def card_search(name):
+    carddata = json.load('AllCards-x.json')
+    cardsetlist = json.load('AllSets-x.json')
 
-	cardData = json.load(urllib2.urlopen('http://mtgjson.com/json/AllCards-x.json'))
-	cardSetList = json.load(urllib2.urlopen('http://mtgjson.com/json/AllSets.json'))
+    name = carddata[name]['name']
+    setname = carddata[name]['printings'][0]
+    set = cardsetlist[setname]
+    print setname
 
-	cardName = cardData[cardname]['name']
-	cardSetName = cardData[cardname]['printings'][0]
-	cardSet = cardSetList[cardSetName]
-	print cardSetName
+    try:
+        print 'Getting multiverseid'
+        for card in set['cards']:
+            if card['name'] == name:
+                multiverseid = card['multiverseid']
+                print multiverseid
+                break
+    except KeyError:
+        print 'KeyError while getting id'
+        setname = carddata[name]['printings'][1]
+        set = cardsetlist[setname]
+        print setname
+        for card in set['cards']:
+            if card['name'] == name:
+                multiverseid = card['multiverseid']
+                print multiverseid
+                break
 
-	try:
-		print 'Getting multiverseid'
-		for card in cardSet['cards']:
-			if card['name'] == cardname:
-				cardMultiverseId = card['multiverseid']
-				print cardMultiverseId
-				break
-	except KeyError:
-		print 'KeyError while getting id'
-		cardSetName = cardData[cardname]['printings'][1]
-		cardSet = cardSetList[cardSetName]
-		print cardSetName
-		for card in cardSet['cards']:
-			if card['name'] == cardname:
-				cardMultiverseId = card['multiverseid']
-				print cardMultiverseId
-				break
+    full_setname = set['name']
+    print full_setname
+    cardinfo = name + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(multiverseid)
+    print cardinfo
+    return [cardinfo, full_setname]
 
-	cardSetNameFull = cardSet['name']
-	print cardSetNameFull
-	cardInfo = cardName + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(cardMultiverseId)
-	print cardInfo
-	return [cardInfo, cardSetNameFull]
 
-def cardPrice(cardName, expansion):
+def card_price(name, expansion):
+    set = expansion.replace(' ', '+')
+    print set
+    mcm_url = 'https://www.magiccardmarket.eu/Products/Singles/' + set + '/' + name
+    print mcm_url
 
-	cardSet = expansion.replace(' ', '+')
-	page = requests.get('https://www.magiccardmarket.eu/Products/Singles/' + cardSet + '/' + cardname)
-	tree = html.fromstring(page.text)
-	
-	priceFrom = tree.xpath(u'//*[@id="ProductInformation"]/div/div[1]/div[1]/table/tbody/tr[2]/td[2]/span[1]')[0].text
-	priceAvg = tree.xpath(u'//*[@id="ProductInformation"]/div/div[1]/div[1]/table/tbody/tr[3]/td[2]')[0].text
-	try:
-		priceFoil = tree.xpath(u'//*[@id="ProductInformation"]/div/div[1]/div[1]/table/tbody/tr[5]/td[2]')[0].text
-	except:
-		priceFoil = u'N/A'
+    page = requests.get(mcm_url)
+    tree = html.fromstring(page.text)
 
-	priceMessage = cardName + ' > From: ' + priceFrom + u' € Avg: ' + priceAvg + ' Foil: ' + priceFoil + '\r'
-	print priceMessage
+    price_low = tree.xpath(u'//*[@id="ProductInformation"]/div/div[1]/div[1]/table/tbody/tr[2]/td[2]/span[1]')[0].text
+    price_avg = tree.xpath(u'//*[@id="ProductInformation"]/div/div[1]/div[1]/table/tbody/tr[3]/td[2]')[0].text
+    try:
+        price_foil = tree.xpath(u'//*[@id="ProductInformation"]/div/div[1]/div[1]/table/tbody/tr[5]/td[2]')[0].text
+    except:
+        price_foil = u'N/A'
 
-	return priceMessage
+    price_message = name + ' > From: ' + price_low + u' € Avg: ' + price_avg + ' Foil: ' + price_foil + '\r'
+    print price_message
 
+    return price_message

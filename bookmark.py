@@ -1,51 +1,53 @@
 import cPickle as pickle
 
-def createBookmark(key, bookmark):
-	try:
-		with open('bookmarks', 'rb') as f:
-		    bookmarkDict = pickle.load(f)
-	except EOFError:
-		bookmarkDict = {}
 
-	bookmarkDict[key] = bookmark		
+def create_bookmark(key, bookmark):
+    try:
+        with open('bookmarks', 'rb') as f:
+            bookmarkdict = pickle.load(f)
+    except EOFError:
+        bookmarkdict = {}
+
+    bookmarkdict[key] = bookmark
+
+    with open('bookmarks', 'wb') as f:
+        pickle.dump(bookmarkdict, f)
+
+    return "Bookmark '" + key + "' for the URL '" + bookmark + "' created sucessfully"
 
 
-	with open('bookmarks', 'wb') as f:
-		pickle.dump(bookmarkDict, f)
+def get_bookmark(key):
+    try:
+        with open('bookmarks', 'rb') as f:
+            bookmarkdict = pickle.load(f)
 
-	return "Bookmark '" + key + "' for the URL '" + bookmark + "' created sucessfully"
+        return "URL: " + bookmarkdict[key.lower()]
+    except:
+        return "Bookmark does not exist, create it by typing: '!bm " + key + "'"
 
 
-def getBookmark(key):
-	try:
-		with open('bookmarks', 'rb') as f:
-			bookmarkDict = pickle.load(f)
+def delete_bookmark(key):
+    try:
+        with open('bookmarks', 'rb') as f:
+            bookmarkdict = pickle.load(f)
+        tempdict = dict(bookmarkdict)
+        del tempdict[key]
 
-		return "URL: " + bookmarkDict[key.lower()]
-	except:
-		return "Bookmark does not exist, create it by typing: '!bm " + key + "'"
+        with open('bookmarks', 'wb') as f:
+            pickle.dump(tempdict, f)
 
-def deleteBookmark(key):
-	try:
-		with open('bookmarks', 'rb') as f:
-			bookmarkDict = pickle.load(f)
-		tempDict = dict(bookmarkDict)
-		del tempDict[key]
+        return "Bookmark sucessfully deleted."
+    except:
+        return "The bookmark '" + key + "' does not exist."
 
-		with open('bookmarks', 'wb') as f:
-			pickle.dump(tempDict, f)
 
-		return "Bookmark sucessfully deleted." 
-	except:
-		return "The bookmark '" + key + "' does not exist."
+def list_bookmark():
+    try:
+        with open('bookmarks', 'rb') as f:
+            bookmarkdict = pickle.load(f)
 
-def listBookmarks():
-	try:
-		with open('bookmarks', 'rb') as f:
-			bookmarkDict = pickle.load(f)
+        dictkeys = list(bookmarkdict.keys())
 
-		dictKeys = list(bookmarkDict.keys())
-
-		return "Available bookmarks: " + '%s' % ', '.join(map(str, dictKeys)) 
-	except:
-		return "Yeah... something went wrong here... :("
+        return "Available bookmarks: " + '%s' % ', '.join(map(str, dictkeys))
+    except:
+        return "Yeah... something went wrong here... :("
