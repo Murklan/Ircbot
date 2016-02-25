@@ -6,44 +6,39 @@ import requests
 
 
 def card_search(name):
-    carddata = json.load('AllCards-x.json')
-    cardsetlist = json.load('AllSets-x.json')
+    with open('AllCards-x.json') as data_file:
+        carddata = json.load(data_file)
+
+    with open('AllSets-x.json') as data_file:
+        cardsetlist = json.load(data_file)
 
     name = carddata[name]['name']
     setname = carddata[name]['printings'][0]
     set = cardsetlist[setname]
-    print setname
 
     try:
         print 'Getting multiverseid'
         for card in set['cards']:
             if card['name'] == name:
                 multiverseid = card['multiverseid']
-                print multiverseid
                 break
     except KeyError:
         print 'KeyError while getting id'
         setname = carddata[name]['printings'][1]
         set = cardsetlist[setname]
-        print setname
         for card in set['cards']:
             if card['name'] == name:
                 multiverseid = card['multiverseid']
-                print multiverseid
                 break
 
     full_setname = set['name']
-    print full_setname
     cardinfo = name + ' : http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=' + str(multiverseid)
-    print cardinfo
     return [cardinfo, full_setname]
 
 
 def card_price(name, expansion):
     set = expansion.replace(' ', '+')
-    print set
     mcm_url = 'https://www.magiccardmarket.eu/Products/Singles/' + set + '/' + name
-    print mcm_url
 
     page = requests.get(mcm_url)
     tree = html.fromstring(page.text)
@@ -56,6 +51,5 @@ def card_price(name, expansion):
         price_foil = u'N/A'
 
     price_message = name + ' > From: ' + price_low + u' € Avg: ' + price_avg + ' Foil: ' + price_foil + '\r'
-    print price_message
 
     return price_message
